@@ -14,7 +14,11 @@ module RailsAdmin
           end
 
           def parse_value(value)
-            value.present? ? JSON.parse(value) : nil
+            begin
+              value.present? ? JSON.parse(value) : nil
+            rescue Oj::ParseError => e
+              return value
+            end
           end
 
           def parse_input(params)
